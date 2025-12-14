@@ -1,0 +1,26 @@
+# PyCharm / IntelliJ
+.idea/
+*.iml
+*.iws
+out/
+
+# Виртуальное окружение
+.venv/
+venv/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Другое
+.DS_Store
+*.log
+.env
