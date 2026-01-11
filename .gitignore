@@ -24,3 +24,6 @@ pip-delete-this-directory.txt
 .DS_Store
 *.log
 .env
+
+# База данных
+ecommerce.db
