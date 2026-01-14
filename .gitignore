@@ -27,3 +27,7 @@ pip-delete-this-directory.txt
 
 # База данных
 ecommerce.db
+
+#прочее
+/app/migrations/env.py
+/alembic.ini
