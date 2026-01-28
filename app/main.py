@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import categories, products
+from app.routers import categories, products, users
 
 
 # Создаём приложение FastAPI
@@ -9,6 +9,7 @@ app = FastAPI(title="FastAPI Интернет-магазин",
 # Подключаем маршруты категорий и товаров
 app.include_router(categories.router)
 app.include_router(products.router)
+app.include_router(users.router)
 
 
 @app.get("/")
