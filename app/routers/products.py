@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db_depends import get_async_db
 
 from app.models.users import User as UserModel
-from app.auth import get_current_seller
+from app.auth import require_roles
 
 router = APIRouter(prefix='/products',
                    tags=['products'], )
@@ -29,7 +29,7 @@ async def get_all_products(db: AsyncSession = Depends(get_async_db)):
 async def create_product(
     product: ProductCreate,
     db: AsyncSession = Depends(get_async_db),
-    current_user: UserModel = Depends(get_current_seller)
+    current_user: UserModel = Depends(require_roles("seller", "admin"))
 ):
     """
     Создаёт новый товар, привязанный к текущему продавцу (только для 'seller').
@@ -103,7 +103,7 @@ async def update_product(
     product_id: int,
     product: ProductCreate,
     db: AsyncSession = Depends(get_async_db),
-    current_user: UserModel = Depends(get_current_seller)
+    current_user: UserModel = Depends(require_roles("seller", "admin"))
 ):
     """
     Обновляет товар, если он принадлежит текущему продавцу (только для 'seller').
@@ -132,7 +132,7 @@ async def update_product(
 async def delete_product(
     product_id: int,
     db: AsyncSession = Depends(get_async_db),
-    current_user: UserModel = Depends(get_current_seller)
+    current_user: UserModel = Depends(require_roles("seller", "admin"))
 ):
     """
     Выполняет мягкое удаление товара, если он принадлежит текущему продавцу (только для 'seller').

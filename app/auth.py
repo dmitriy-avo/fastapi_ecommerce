@@ -1,3 +1,5 @@
+from typing import Callable
+
 import jwt
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
@@ -78,18 +80,36 @@ async def get_current_user(token: str = Depends(oauth2_scheme),
     return user
 
 
-async def get_current_seller(current_user: UserModel = Depends(get_current_user)):
-    """
-    Проверяет, что пользователь имеет роль 'seller'.
-    """
-    if current_user.role != "seller":
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
-                            detail="Only sellers can perform this action")
-    return current_user
+# async def get_current_seller(current_user: UserModel = Depends(get_current_user)):
+#     """
+#     Проверяет, что пользователь имеет роль 'seller'.
+#     """
+#     if current_user.role != "seller":
+#         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+#                             detail="Only sellers can perform this action")
+#     return current_user
+#
+#
+# async def get_current_buyer(current_user: UserModel = Depends(get_current_user)):
+#     if current_user.role != "buyer":
+#         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+#                             detail="Only buyers can perform this action")
+#     return current_user
 
 
-async def get_current_buyer(current_user: UserModel = Depends(get_current_user)):
-    if current_user.role != "buyer":
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
-                            detail="Only buyers can perform this action")
-    return current_user
+
+def require_roles(*roles: str) -> Callable:
+    """
+        Фабрика зависимостей для проверки ролей пользователя.
+        Принимает список разрешённых ролей и возвращает dependency,
+        которая проверяет, имеет ли текущий пользователь одну из них.
+    """
+    async def role_checker(current_user: UserModel = Depends(get_current_user)) -> UserModel:
+        if current_user.role not in roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not enough permissions"
+            )
+        return current_user
+
+    return role_checker

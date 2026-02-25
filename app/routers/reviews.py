@@ -8,7 +8,7 @@ from app.models.reviews import Review as ReviewModel
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db_depends import get_async_db
-from app.auth import get_current_buyer
+from app.auth import require_roles
 
 router = APIRouter(prefix="/reviews", tags=["Reviews"])
 
@@ -65,7 +65,7 @@ async def get_product_reviews(product_id: int,
 async def create_review(
         review: ReviewCreate,
         db: AsyncSession = Depends(get_async_db),
-        current_user: UserSchema = Depends(get_current_buyer)
+        current_user: UserSchema = Depends(require_roles("buyer", "admin"))
 ):
     """
     Создает новый отзыв на товар.
@@ -114,7 +114,7 @@ async def create_review(
 @router.delete("/{review_id}", response_model=ReviewSchema)
 async def delete_review(review_id: int,
                         db: AsyncSession = Depends(get_async_db),
-                        current_user: UserSchema = Depends(get_current_buyer)):
+                        current_user: UserSchema = Depends(require_roles("buyer", "admin"))):
     """
     Выполняет мягкое удаление отзыва.
     Доступ: только автор отзыва.

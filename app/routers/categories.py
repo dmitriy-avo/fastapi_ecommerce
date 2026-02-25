@@ -12,7 +12,7 @@ router = APIRouter(
     prefix="/categories",
     tags=["category"],
 )
-
+# TODO: Создание и удаление категорий - только для админа (Depends(require_roles("admin")))
 
 @router.get("/", response_model=list[CategorySchema])
 async def get_all_categories(db: AsyncSession = Depends(get_async_db)):
