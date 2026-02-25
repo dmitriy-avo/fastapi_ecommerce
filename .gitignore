@@ -1,33 +1,82 @@
-# PyCharm / IntelliJ
+# =========================
+# OS / IDE
+# =========================
+.DS_Store
+Thumbs.db
+
 .idea/
+.vscode/
 *.iml
 *.iws
-out/
+*.ipr
 
-# Виртуальное окружение
-.venv/
-venv/
-ENV/
-
-# Python
+# =========================
+# Python caches / artifacts
+# =========================
 __pycache__/
 *.py[cod]
-*.pyc
-*.pyo
 *.pyd
-.Python
-env/
+*.so
+*.egg-info/
+*.egg
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Другое
-.DS_Store
-*.log
+# =========================
+# Virtual environments
+# =========================
+.venv/
+venv/
+ENV/
+env/
+
+# =========================
+# Environment / secrets
+# =========================
 .env
+.env.*
+!.env.example
 
-# База данных
-ecommerce.db
+# =========================
+# Database (local)
+# =========================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
 
-#прочее
-/app/migrations/env.py
-/alembic.ini
+# =========================
+# Testing / coverage
+# =========================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.pyre/
+.pytype/
+ruff_cache/
+.ruff_cache/
+.ruff-cache/
+.cache/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Build / packaging
+# =========================
+build/
+dist/
+wheelhouse/
+*.whl
+
+
+
+# =========================
+# Alembic (ВАЖНО)
+# =========================
