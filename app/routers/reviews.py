@@ -135,7 +135,7 @@ async def delete_review(review_id: int,
 
     # 3. Проверка прав: current_user.id == review.user_id (автор)
     #    ⚠️ Позже добавить: or current_user.role == "admin"
-    if current_user.id != review.user_id:
+    if current_user.id != review.user_id and current_user.role != "admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail='Not allowed')
 

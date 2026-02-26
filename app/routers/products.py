@@ -112,11 +112,13 @@ async def update_product(
     db_product = result.first()
     if not db_product:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
-    if db_product.seller_id != current_user.id:
+
+    if db_product.seller_id != current_user.id and current_user.role != "admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You can only update your own products")
     category_result = await db.scalars(
         select(CategoryModel).where(CategoryModel.id == product.category_id, CategoryModel.is_active == True)
     )
+
     if not category_result.first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Category not found or inactive")
     await db.execute(
@@ -143,7 +145,7 @@ async def delete_product(
     product = result.first()
     if not product:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found or inactive")
-    if product.seller_id != current_user.id:
+    if product.seller_id != current_user.id and current_user.role != "admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You can only delete your own products")
     await db.execute(
         update(ProductModel).where(ProductModel.id == product_id).values(is_active=False)
