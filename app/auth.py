@@ -108,7 +108,7 @@ def require_roles(*roles: str) -> Callable:
         if current_user.role not in roles:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Not enough permissions"
+                detail=f"Not enough permissions. Only {', '.join(roles)} are allowed."
             )
         return current_user
 

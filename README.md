@@ -12,10 +12,10 @@ Backend API для  e-commerce проекта на **FastAPI**: JWT-автори
 
 ## Features (MVP)
 - Auth: регистрация/логин, JWT токены
-- Роли: `buyer` / `seller`
-- Products: CRUD (создание только для `seller`)
-- Categories: базовый CRUD
-- Reviews: создание/получение, пересчёт рейтинга товара
+- Роли: `buyer` / `seller` / `admin`
+- Products: CRUD (создание, изменение, удаление только для `seller` и `admin`)
+- Categories: CRUD (создание, изменение, удаление только для `admin`)
+- Reviews: создание/получение, пересчёт рейтинга товара (создание, изменение, удаление только для `buyer` и `admin`)
 
 ## Project structure
 ```text
@@ -79,7 +79,9 @@ Connection string:
 postgresql+asyncpg://ecommerce_user:postgres@localhost:5432/ecommerce_db
 ```
 ### 4) Migrations
+```
 alembic upgrade head
+```
 ### 5) Start API
 ```
 uvicorn app.main:app --reload
